@@ -106,23 +106,30 @@ int main(int argc, char *argv[])
             if(key == 27) // ESC
                 break;
 
-            if(key == 97) // a
-                throttle = (throttle+step) > MAX ? MAX : throttle+step;
-            if(key == 101) // e
-                throttle = (throttle-step) < MIN ? MIN : throttle-step;
+            if(key == 'e')
+                throttle = (throttle+step) > SBUS_MAX ? SBUS_MAX : throttle+step;
+            if(key == 'a')
+                throttle = (throttle-step) < SBUS_MIN ? SBUS_MIN : throttle-step;
 
-            if(key == 'z') // z
-                pitch = (pitch+step) > MAX ? MAX : pitch+step;
-            if(key == 's') // s
-                pitch = (pitch-step) < MIN ? MIN : pitch-step;
+            if(key == 'z')
+                pitch = (pitch+step) > SBUS_MAX ? SBUS_MAX : pitch+step;
+            if(key == 's')
+                pitch = (pitch-step) < SBUS_MIN ? SBUS_MIN : pitch-step;
 
-            if(key == 'q') // z
-                roll = (roll+step) > MAX ? MAX : roll+step;
-            if(key == 'd') // s
-                roll = (roll-step) < MIN ? MIN : roll-step;
+            if(key == 'd')
+                roll = (roll+step) > SBUS_MAX ? SBUS_MAX : roll+step;
+            if(key == 'q')
+                roll = (roll-step) < SBUS_MIN ? SBUS_MIN : roll-step;
 
+            if(key == 'c')
+                yaw = (yaw+step) > SBUS_MAX ? SBUS_MAX : yaw+step;
             if(key == 'w')
+                yaw = (yaw-step) < SBUS_MIN ? SBUS_MIN : yaw-step;
+
+            if(key == 'x')
                 armed = !armed;
+
+            cout << "a t y p r: " << armed << " " << throttle << " " << yaw << " " << pitch << " " << roll << endl;
         }
 
         channels[0] = roll;
@@ -131,8 +138,6 @@ int main(int argc, char *argv[])
         channels[2] = throttle;
         channels[4] = armed ? 992 : 11;
         sbusport.write(channels);
-
-        cout << "a t y p r" << armed << " " << throttle << " " << yaw << " " << pitch << " " << roll << endl;
 
         usleep(7000); // send every 7ms (SBUS high speed mode)
     }
