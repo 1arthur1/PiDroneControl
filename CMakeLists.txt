@@ -14,6 +14,7 @@ link_directories(../PiSBUS/bld)
 add_executable(${APP_NAME} ${SRCS})
 
 target_link_libraries(${APP_NAME} libsbus.a)
+target_link_libraries(${APP_NAME} socket++)
 
 add_custom_target(run
                   COMMAND ./${APP_NAME} /dev/ttyS0
